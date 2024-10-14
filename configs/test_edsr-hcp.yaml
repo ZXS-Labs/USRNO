@@ -1,0 +1,15 @@
+test_dataset:
+  dataset:
+    name: image-folder-low-hcp
+    args:
+      root_path: /data2/_data/Low_HCP/T1w/test
+  wrapper:
+    name: sr-implicit-downsampled-fast-low-hcp
+    args:
+      scale_min: 3
+      scale_max: 3
+  batch_size: 1
+eval_bsize: 32
+data_norm:
+  inp: {sub: [0.5], div: [0.5]}
+  gt: {sub: [0.5], div: [0.5]}

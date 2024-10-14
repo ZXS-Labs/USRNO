@@ -1,0 +1,27 @@
+test_dataset:
+  dataset:
+    name: paired-image-folders
+    args:
+      #root_path: ./data/DIV2K_valid_HR
+      root_path_1: ./data/benchmark/Urban100/hr_2
+      root_path_2: ./data/benchmark/Urban100/hr  
+  wrapper:
+      name: sr-implicit-paired-fast
+      args: {}
+  batch_size: 1
+eval_type: benchmark-2
+#eval_bsize: 300
+
+
+data_norm:
+  inp: {sub: [0.5], div: [0.5]}
+  gt: {sub: [0.5], div: [0.5]}
+
+model:
+  name: srno
+  args:
+    encoder_spec:
+      name: edsr-baseline
+      args:
+        no_upsampling: true
+    width: 256

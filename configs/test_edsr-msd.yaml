@@ -1,0 +1,15 @@
+test_dataset:
+  dataset:
+    name: image-folder-msd
+    args:
+      root_path: ./Data/Brain-T1
+  wrapper:
+    name: sr-implicit-downsampled-fast-msd
+    args:
+      scale_min: 8
+      scale_max: 8
+  batch_size: 1
+eval_bsize: 32
+data_norm:
+  inp: {sub: [0.5], div: [0.5]}
+  gt: {sub: [0.5], div: [0.5]}

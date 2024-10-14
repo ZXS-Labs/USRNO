@@ -1,0 +1,65 @@
+train_dataset:
+  dataset:
+    name: arssr_hcp
+    args:
+      in_path_hr: ./hcp_data/data/hr_train
+      sample_size: 8000
+      is_train: True
+  wrapper:
+    name: arssr_hcp_wapper
+    args: 
+        inp_size: 128
+  batch_size: 16
+
+val_dataset:
+  dataset:
+    name: arssr_hcp
+    args:
+      in_path_hr: ./hcp_data/data/hr_val
+      is_train: False
+  wrapper:
+      name: arssr_hcp_wapper
+      args: 
+        inp_size: 128
+  batch_size: 1
+#eval_type: div2k-2
+#eval_bsize: 500
+
+
+data_norm:
+  inp: {sub: [0.5], div: [0.5]}
+  gt: {sub: [0.5], div: [0.5]}
+
+model:
+  name: sronet
+  args:
+    encoder_spec:
+      name: rdn-3d
+      #name: simple
+      args:
+        # no_upsampling: true
+        # n_colors: 1
+        feature_dim : 128
+        #width: 64
+    width: 512
+    blocks: 16
+    out_dim: 1
+
+optimizer:
+  name: adam
+  args:
+    lr: 4.e-5
+    #lr: 8.e-5
+    #weight_decay: 1.e-5
+epoch_max: 2050
+warmup_step_lr:
+  multiplier: 10
+  total_epoch: 50
+#multi_step_lr:
+#  milestones: [200, 400, 600, 800, 1000]
+#  gamma: 0.5
+
+epoch_val: 50
+epoch_save: 25
+
+#resume: ./save/edsr_batch_128/epoch-last.pth

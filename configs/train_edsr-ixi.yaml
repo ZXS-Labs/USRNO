@@ -1,0 +1,65 @@
+train_dataset:
+  dataset:
+    name: image-folder-ixi
+    args:
+      root_path: ./data/IXI/IXI_HR/PD/train
+      repeat: 1
+  wrapper:
+    name: sr-implicit-downsampled-fast
+    args:
+      inp_size: 48
+      scale_max: 4
+      augment: true
+  batch_size: 128
+
+val_dataset:
+  dataset:
+    name: image-folder-ixi
+    args:
+      root_path: ./data/IXI/IXI_HR/PD/valid
+  wrapper:
+      name: sr-implicit-downsampled-fast
+      args:
+        scale_min: 2
+        scale_max: 2
+  batch_size: 1
+#eval_type: div2k-2
+#eval_bsize: 500
+
+
+data_norm:
+  inp: {sub: [0.0], div: [1.0]}
+  gt: {sub: [0.0], div: [1.0]}
+
+model:
+  name: sronet
+  args:
+    encoder_spec:
+      name: edsr-baseline
+      #name: simple
+      args:
+        no_upsampling: true
+        n_colors: 1
+        #width: 64
+    width: 256
+    blocks: 16
+    out_dim: 1
+
+optimizer:
+  name: adam
+  args:
+    lr: 8.e-5
+    #lr: 8.e-5
+    #weight_decay: 1.e-5
+epoch_max: 1050
+warmup_step_lr:
+  multiplier: 10
+  total_epoch: 50
+#multi_step_lr:
+#  milestones: [200, 400, 600, 800, 1000]
+#  gamma: 0.5
+
+epoch_val: 50
+epoch_save: 250
+
+#resume: ./save/edsr_batch_128/epoch-last.pth
